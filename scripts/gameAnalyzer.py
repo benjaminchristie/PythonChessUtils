@@ -48,7 +48,7 @@ class GameAnalyzer:
 		ply = 0 # even if it is white's move, odd if black's move
 		cpl = 0
 		blackCpl = 0
-		beforeEval = self.engine.analyse(board, chess.engine.Limit(time=self.time))
+		beforeEval = self.engine.analyse(board, chess.engine.Limit(time=self.time, depth=self.depth))
 		beforeCp = beforeEval["score"].pov(chess.WHITE)
 		for move in actualGame.mainline_moves():
 			# clear screen
@@ -66,7 +66,7 @@ class GameAnalyzer:
 				print("cpls: " + str(blackCpl) + " " + str(cpl))
 			board.push(move)
 			print(board)
-			afterEval = self.engine.analyse(board, chess.engine.Limit(time=self.time))
+			afterEval = self.engine.analyse(board, chess.engine.Limit(time=self.time, depth=self.depth))
 			afterCp = afterEval["score"].pov(chess.WHITE)
 
 			if board.turn == chess.WHITE and not afterCp.is_mate() and not beforeCp.is_mate():
