@@ -12,8 +12,9 @@ import chess.pgn
 class GameAnalyzer:
 
 
-	def __init__(self, game=None, file=None, pgn=None, time=2, depth=30, enginePath="C:/Users/Benjamin/Arena_3.5.1/Engines/Stockfish12/stockfish_20090216_x64_bmi2.exe", param=None):
-		self.game = str(game)[0:8]
+	def __init__(self, url='fRRYMLHpkAKY', game=None, file=None, pgn=None, time=0.1, depth=30, enginePath="C:/Users/Benjamin/Arena_3.5.1/Engines/Stockfish12/stockfish_20090216_x64_bmi2.exe", param=None):
+		self.url = str(url)[0:8]
+		self.game = game
 		self.depth = int(depth)
 		self.time = time
 		self.param = param
@@ -26,17 +27,19 @@ class GameAnalyzer:
 	def analyzeLichessURL(self, url):
 		print("Importing game {}...".format(game))
 		actualGame = lichess.api.game(str(game), format=PYCHESS, auth=self.auth)
-		self.analyze(actualGame)
+		return self.analyze(actualGame)
 
 	def analyzeFile(self, file):
 		pgn = open(file)
-		self.analyzePGN(pgn)
+		return self.analyzePGN(pgn)
 
 	def analyzePGN(self, pgn):
 		print("Importing game...")
 		actualGame = chess.pgn.read_game(pgn)
-		self.analyze(actualGame)
+		return self.analyze(actualGame)
 
+	def analyzeself(self):
+		return self.analyze(self.game)
 
 	# GAME must be a game object from chess
 	def analyze(self, game):
@@ -85,7 +88,7 @@ class GameAnalyzer:
 		oppAcpl = -blackCpl / (0.5 * ply)
 		print("White ACPL : " + str(acpl))
 		print("Black ACPL : " + str(oppAcpl))
-		time.sleep(10)
+		return acpl, oppAcpl
 		
 
 if __name__ == "__main__":
