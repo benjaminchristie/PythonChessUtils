@@ -41,13 +41,13 @@ class SimpleGame():
 		return self.whiteName
 
 
-def main(username="threeisthree"):
+def main(username="C9C9C9C9C9"):
 	games = []
 	totalaverage = 0
 	c = 0
-	userGames = list(lichess.api.user_games(str(username), max=50, format=PYCHESS, auth=str(os.getenv("LICHESSAUTH"))))
+	userGames = list(lichess.api.user_games(str(username), max=1, format=PYCHESS, auth=str(os.getenv("LICHESSAUTH"))))
 	for game in userGames:
-		ga = GameAnalyzer(game=game, enginePath="/home/benjamin/personal/stockfish_20090216_x64_avx2", time=5, depth=20)
+		ga = GameAnalyzer(game=game, enginePath="/home/benjamin/personal/stockfish_20090216_x64_avx2", time=0.05, depth=20)
 		acplw, acplb = ga.analyzeself()
 		sg = SimpleGame(result=game.headers["Result"], acplW=acplw, acplB=acplb, pgn=game, blackName=game.headers["Black"], whiteName=game.headers["White"])
 		games.append(sg)
